@@ -1,0 +1,16 @@
+<Configuration name="ConfigTest" status="ERROR" monitorInterval="5">
+  <Appenders>
+    <Console name="Out">
+        <PatternLayout pattern="%date [%-5level] %35class{1.}:%04line - %message%n"/>
+    </Console>
+  </Appenders>
+
+  <Loggers>
+    <Logger name="org.test.marvel" level="trace" additivity="false">
+      <AppenderRef ref="Out"/>
+    </Logger>
+    <Root level="info">
+      <AppenderRef ref="Out"/>
+    </Root>
+  </Loggers>
+</Configuration>
