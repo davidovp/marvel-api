@@ -7,12 +7,16 @@
 ### Start-up / Running
 To run this Spring Boot app, first set the following 2 properties in 'src/main/resources/application.properties'
 
-1. Set **api.marvel.apiKey** to your Marvel API key
+1. Set api.marvel.apiKey** to your Marvel API key
 2. Set **api.marvel.privateKey** to your Marvel API private key
 
-Run './gradlew bootRun' (Linux/\*nix) or 'gradlew.bat bootRun' (Windows) to build & run the server.*
+Execute the applicable command from top-level project directory to start the API server*:
+|OS|Command|
+|:---:|:---|
+|Linux/macOS|```./gradlew bootRun```|
+|Windows|```gradlew.bat bootRun```|
 
-<sup>* Make sure you have a Java JRE/JDK installed and the _java / java.exe_ executable is in your system path.<sup>
+<sup>* - Make sure you have a Java JRE/JDK installed and that the ```java```/```java.exe``` executable is in your system path.<sup>
 
 Service URL:  http://localhost:8080/api/v1/comics
 
