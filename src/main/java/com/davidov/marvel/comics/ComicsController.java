@@ -1,4 +1,4 @@
-package com.test.marvel;
+package com.davidov.marvel.comics;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,14 +19,14 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1")
-public class MarvelController {
+public class ComicsController {
 
     @Autowired
-    MarvelClient marvelClient;
+    ComicsService comicsService;
 
     @Operation(
         summary = "Get list of Marvel comics",
-        description = "Get a list of Marvel comics, optionally filtered by lists of charactrers, creators or series id's")
+        description = "Get a list of Marvel comics, optionally filtered by lists of characters, creators or series id's")
     @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Call successful"),
     @ApiResponse(responseCode = "409", description = "Marvel API server error"),
@@ -45,7 +45,7 @@ public class MarvelController {
             log.info("Param 'seriesIds': {}", seriesIdList);
         }
 
-        return marvelClient.getComics(characterIdList, creatorIdList, seriesIdList);
+        return comicsService.getComics(characterIdList, creatorIdList, seriesIdList);
     }
 
 }

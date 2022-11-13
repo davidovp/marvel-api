@@ -1,14 +1,14 @@
-package com.test.marvel;
+package com.davidov.marvel;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@SpringBootApplication(scanBasePackages = { "com.test.marvel"})
-public class MarvelApiApp {
+@SpringBootApplication(scanBasePackages = {"com.davidov.marvel"})
+public class MarvelApplication {
 
 	public static void main(String[] args) {
-		new SpringApplicationBuilder(MarvelApiApp.class)
+		new SpringApplicationBuilder(MarvelApplication.class)
 			.web(WebApplicationType.REACTIVE)
 			.run(args);
 	}

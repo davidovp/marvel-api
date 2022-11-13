@@ -1,4 +1,4 @@
-package com.test.marvel;
+package com.davidov.marvel;
 
 import java.util.Map;
 

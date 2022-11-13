@@ -1,11 +1,11 @@
-package com.test.marvel;
+package com.davidov.marvel.comics;
 
 import java.util.List;
 import java.util.Optional;
 
 import reactor.core.publisher.Mono;
 
-public interface MarvelClient {
+public interface ComicsService {
     public Mono<String> getComics(Optional<List<String>> creatorIdList,
             Optional<List<String>> characterIdList, Optional<List<String>> seriesIdList);
 
@@ -13,5 +13,7 @@ public interface MarvelClient {
 
     public Mono<String> getComicsByCreator(String creatorId);
 
+    public Mono<String> getComicsByEvent(String eventId);
+    
     public Mono<String> getComicsBySeries(String seriesId);
 }

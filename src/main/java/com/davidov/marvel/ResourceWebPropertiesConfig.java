@@ -1,4 +1,4 @@
-package com.test.marvel;
+package com.davidov.marvel;
 
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Bean;

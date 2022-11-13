@@ -1,4 +1,4 @@
-package com.test.marvel;
+package com.davidov.marvel.comics;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +12,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 
+import com.davidov.marvel.AppConfiguration;
+import com.davidov.marvel.MarvelUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -20,30 +22,18 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class MarvelClientImpl implements MarvelClient {
-
-    protected static final String MARVEL_URL_API = "https://gateway.marvel.com:443/v1/public";
-    protected static final String MARVEL_URI_COMICS = "/comics";
-    protected static final String MARVEL_URI_CHARACTERS = "/characters";
-    protected static final String MARVEL_URI_CREATORS = "/creators";
-    protected static final String MARVEL_URI_SERIES = "/series";
-    protected static final String MARVEL_PARAM_TIMESTAMP = "ts";
-    protected static final String MARVEL_PARAM_APIKEY = "apikey";
-    protected static final String MARVEL_PARAM_HASH = "hash";
-    protected static final String MARVEL_PARAM_LIMIT = "limit";
-
-    protected static final int PAGE_SIZE = 5;
+public class ComicsServiceImpl implements ComicsService {
 
     @Autowired
-    private MarvelApiProperties apiProps;
+    private AppConfiguration config;
 
     private WebClient webClient;
     private ObjectMapper mapper;
 
-    public MarvelClientImpl(WebClient.Builder webClientBuilder) {
+    public ComicsServiceImpl(WebClient.Builder webClientBuilder) {
         this.mapper = new ObjectMapper();
         this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        this.webClient = webClientBuilder.baseUrl(MARVEL_URL_API)
+        this.webClient = webClientBuilder.baseUrl(MarvelUtil.MARVEL_URL_API)
             .build();
     }
 
@@ -54,10 +44,10 @@ public class MarvelClientImpl implements MarvelClient {
         long timestamp = MarvelUtil.getTimestamp();
         ResponseSpec spec = webClient.get()
             .uri(uriBuilder -> uriBuilder.path(apiUri)
-                .queryParam(MARVEL_PARAM_TIMESTAMP,  timestamp)
-                .queryParam(MARVEL_PARAM_APIKEY, apiProps.getApiKey())
-                .queryParam(MARVEL_PARAM_HASH, MarvelUtil.getHash(apiProps.getApiKey(), apiProps.getPrivateKey(), timestamp))
-                .queryParam(MARVEL_PARAM_LIMIT, PAGE_SIZE)
+                .queryParam(MarvelUtil.MARVEL_PARAM_TIMESTAMP,  timestamp)
+                .queryParam(MarvelUtil.MARVEL_PARAM_APIKEY, config.getApiKey())
+                .queryParam(MarvelUtil.MARVEL_PARAM_HASH, MarvelUtil.getHash(config.getApiKey(), config.getPrivateKey(), timestamp))
+                .queryParam(MarvelUtil.MARVEL_PARAM_LIMIT, MarvelUtil.DEFAULT_PAGE_SIZE)
                 .queryParams(params)
 	            .build())
             .header(HttpHeaders.ACCEPT_ENCODING, "gzip")
@@ -97,7 +87,7 @@ public class MarvelClientImpl implements MarvelClient {
         seriesIdList.ifPresent(list -> queryParams.addAll("series", list));
         log.info("Filters: {}", queryParams);
 
-        ResponseSpec spec = setupApiCall(this.webClient, MARVEL_URI_COMICS, queryParams);
+        ResponseSpec spec = setupApiCall(this.webClient, MarvelUtil.MARVEL_URI_COMICS, queryParams);
         log.info("Calling Marvel API service");
         Mono<String> result = spec.bodyToMono(String.class)
             .doOnSuccess(this::logSuccess)
@@ -113,7 +103,7 @@ public class MarvelClientImpl implements MarvelClient {
         log.debug(">>> getComicsByCharacter");
 
         ResponseSpec spec = setupApiCall(this.webClient, 
-            MARVEL_URI_CHARACTERS + "/" + characterId + MARVEL_URI_COMICS,
+            MarvelUtil.MARVEL_URI_CHARACTERS + "/" + characterId + MarvelUtil.MARVEL_URI_COMICS,
             null);
 
         Mono<String> result = spec.bodyToMono(String.class)
@@ -129,7 +119,7 @@ public class MarvelClientImpl implements MarvelClient {
         log.debug(">>> getComicsByCreator");
 
         ResponseSpec spec = setupApiCall(this.webClient, 
-            MARVEL_URI_CREATORS + "/" + creatorId + MARVEL_URI_COMICS,
+            MarvelUtil.MARVEL_URI_CREATORS + "/" + creatorId + MarvelUtil.MARVEL_URI_COMICS,
             null);
 
         Mono<String> result = spec.bodyToMono(String.class)
@@ -145,7 +135,7 @@ public class MarvelClientImpl implements MarvelClient {
         log.debug(">>> getComicsBySeries");
 
         ResponseSpec spec = setupApiCall(this.webClient, 
-            MARVEL_URI_SERIES + "/" + seriesId + MARVEL_URI_COMICS,
+            MarvelUtil.MARVEL_URI_SERIES + "/" + seriesId + MarvelUtil.MARVEL_URI_COMICS,
             null);
 
         Mono<String> result = spec.bodyToMono(String.class)
@@ -155,5 +145,21 @@ public class MarvelClientImpl implements MarvelClient {
 
         return result;
 	}
+
+    @Override
+    public Mono<String> getComicsByEvent(String eventId) {
+        log.debug(">>> getComicsByEvent");
+
+        ResponseSpec spec = setupApiCall(this.webClient, 
+            MarvelUtil.MARVEL_URI_EVENTS + "/" + eventId + MarvelUtil.MARVEL_URI_COMICS,
+            null);
+
+        Mono<String> result = spec.bodyToMono(String.class)
+            .doOnSuccess(this::logSuccess)
+            .doOnError(this::logError)
+            .onErrorResume( e -> Mono.just(e.getMessage()));
+
+        return result;
+    }
 
 }
