@@ -13,12 +13,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1")
+@Tag(name="Characters", description = "Marvel characters related API calls")
 public class CharactersController {
 
     @Autowired
@@ -48,4 +50,20 @@ public class CharactersController {
         return characterService.getCharacters(comicsIdList, creatorIdList, seriesIdList);
     }
 
+    @Operation(
+        summary = "Search for Marvel characters",
+        description = "Get a list of Marvel characters matching search criteria")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Call successful"),
+    @ApiResponse(responseCode = "409", description = "Marvel API server error"),
+    @ApiResponse(responseCode = "500", description = "Server error")})
+    @GetMapping(path = "/characters/search", produces = {"application/json"})
+    public Mono<String> getCharacersSearch(
+        @Parameter(description = "Name of character to search") @RequestParam("name") Optional<String> characterName) {
+        
+        log.debug(">>> getCharacersSearch");
+        log.info("Param 'name': {}", characterName);
+
+        return characterService.getCharactersByName(characterName);
+    }
 }

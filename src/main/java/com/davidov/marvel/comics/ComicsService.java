@@ -9,6 +9,8 @@ public interface ComicsService {
     public Mono<String> getComics(Optional<List<String>> creatorIdList,
             Optional<List<String>> characterIdList, Optional<List<String>> seriesIdList);
 
+    public Mono<String> getComicsByTitle(Optional<String> comicTitle);
+
     public Mono<String> getComicsByCharacter(String characterId);
 
     public Mono<String> getComicsByCreator(String creatorId);

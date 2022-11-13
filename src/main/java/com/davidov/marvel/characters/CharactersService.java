@@ -12,6 +12,8 @@ public interface CharactersService {
         Optional<List<String>> creatorIdList,
         Optional<List<String>> seriesIdList);
 
+    public Mono<String> getCharactersByName(Optional<String> characterName);
+
     public Mono<String> getCharactersByComic(String comicId);
 
     public Mono<String> getCharactersByCreator(String creatorId);

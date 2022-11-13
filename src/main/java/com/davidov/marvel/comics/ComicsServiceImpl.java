@@ -98,6 +98,27 @@ public class ComicsServiceImpl implements ComicsService {
         return result;
     }
 
+    @Override
+    public Mono<String> getComicsByTitle(Optional<String> comicTitle) {
+        log.debug(">>> getComicsByTitle");
+        
+        log.info("Getting comics filtered by title");
+        log.info("Preparing Marvel query param filters");
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        comicTitle.ifPresent(title -> queryParams.add("titleStartsWith", title));
+        log.info("Filters: {}", queryParams);
+
+        ResponseSpec spec = setupApiCall(this.webClient, MarvelUtil.MARVEL_URI_COMICS, queryParams);
+        log.info("Calling Marvel API service");
+        Mono<String> result = spec.bodyToMono(String.class)
+            .doOnSuccess(this::logSuccess)
+            .doOnError(this::logError)
+            .onErrorResume( e -> Mono.just(e.getMessage()));
+        log.info("Service call finished");
+
+        return result;
+    }
+
 	@Override
 	public Mono<String> getComicsByCharacter(String characterId) {
         log.debug(">>> getComicsByCharacter");
@@ -161,5 +182,6 @@ public class ComicsServiceImpl implements ComicsService {
 
         return result;
     }
+
 
 }
