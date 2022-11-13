@@ -33,14 +33,14 @@ Base service URL:  http://localhost:8080/api/v1/...
 - Spring Boot 2.75
 - Spring WebFlux Reactive Framework
 - Spring Actuator
-- Springdoc
+- Springdoc-openapi - API docs
 - Lombok - reduce biolerplate code (getters/setters/logger/etc)
 - Slf4j Logging (w/ Log4j) - implementation agnostic logging
-- Gradle 7
-- JDK 11
+- Gradle 7.5
+- JDK 11+
 
 ### Architecture/Design
-- Simple REST API with single service call method which takes 0 to 3 filters (lists of characters, creators, series id's) (3 add'l exp methods)
+- Simple REST API with service call methods which takes 0 to 3 filters (lists of characters, creators, series id's) + add'l search methods
 - Utilizes WebFlux WebClient; returns String containing Marvel API JSON response as-is
 - Limited page size to only 5 records/call (development setting)
 - Limited error handler returns JSON error from Marvel API call
