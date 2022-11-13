@@ -8,6 +8,11 @@ group = 'com.davidov'
 version = '1.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+// Additional project props
+project.ext {
+	dockerRepoName = "${project.group}/${project.name}"
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -35,4 +40,9 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named("bootBuildImage") {
+	imageName = "${project.dockerRepoName}:${project.version}"
+	tags = ["${project.dockerRepoName}:latest"]
 }
