@@ -6,7 +6,7 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="org.test.marvel" level="trace" additivity="false">
+    <Logger name="com.davidov.marvel" level="debug" additivity="false">
       <AppenderRef ref="Out"/>
     </Logger>
     <Root level="info">
