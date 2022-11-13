@@ -10,7 +10,7 @@ To run this Spring Boot app, first make sure to set the Marvel API/private key u
 1. ```api.marvel.apiKey``` to your Marvel API key
 2. ```api.marvel.privateKey``` to your Marvel API private key
 
-To run with Gradle, execute the applicable command from the top-level project directory to start the server*:
+To run with Gradle, execute the applicable command from the top-level project directory to start the server.*
 |OS|Command|
 |:---:|:---|
 |Linux/macOS|```./gradlew bootRun```|
@@ -21,7 +21,7 @@ To run with Docker:
 2. Run ```./gradlew bootBuildImage```|
 3. Run ```docker run -p 8080:8080 -p 9090:9090 marvel-api:<version>```
 
-<sup>* - Make sure you have a Java JRE/JDK installed and that the ```java```/```java.exe``` executable is in your system path.<sup>
+<sup>* - Make sure you have a Java JRE/JDK installed and that the ```java```/```java.exe``` executable is in your system path.</sup>
 
 Base service URL:  http://localhost:8080/api/v1/...
 
