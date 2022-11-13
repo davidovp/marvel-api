@@ -5,7 +5,7 @@
 <br/>
 
 ### Start-up / Running
-To run this Spring Boot app, first make sure to set the Marvel API/private key using the following properties in 'src/main/resources/application.properties'
+To run this Spring Boot app, first make sure to set the Marvel API/private key using the following properties in ```src/main/resources/application.properties```
 
 1. ```api.marvel.apiKey``` to your Marvel API key
 2. ```api.marvel.privateKey``` to your Marvel API private key
@@ -19,7 +19,7 @@ To run with Gradle, execute the applicable command from the top-level project di
 To run with Docker:
 1. Install Docker (https://docs.docker.com/get-docker/)
 2. Run ```./gradlew bootBuildImage```|
-3. From project root, run ```docker run -p 8080:8080 -p 9090:9090 marvel-api:1.0.0-SNAPSHOT```
+3. Run ```docker run -p 8080:8080 -p 9090:9090 marvel-api:1.0.0-SNAPSHOT```
 
 <sup>* - Make sure you have a Java JRE/JDK installed and that the ```java```/```java.exe``` executable is in your system path.<sup>
 
@@ -33,6 +33,7 @@ Base service URL:  http://localhost:8080/api/v1/...
 - Spring Boot 2.75
 - Spring WebFlux Reactive Framework
 - Spring Actuator
+- Springdoc
 - Lombok - reduce biolerplate code (getters/setters/logger/etc)
 - Slf4j Logging (w/ Log4j) - implementation agnostic logging
 - Gradle 7
