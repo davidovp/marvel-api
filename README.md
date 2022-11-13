@@ -19,7 +19,7 @@ To run with Gradle, execute the applicable command from the top-level project di
 To run with Docker:
 1. Install Docker (https://docs.docker.com/get-docker/)
 2. Run ```./gradlew bootBuildImage```|
-3. Run ```docker run -p 8080:8080 -p 9090:9090 marvel-api:1.0.0-SNAPSHOT```
+3. Run ```docker run -p 8080:8080 -p 9090:9090 marvel-api:<version>```
 
 <sup>* - Make sure you have a Java JRE/JDK installed and that the ```java```/```java.exe``` executable is in your system path.<sup>
 
